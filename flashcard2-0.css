@@ -34,3 +34,17 @@ input {
     width: 300px;
     border-radius: 10px;
 }
+
+#quiz {
+    margin-top: 20px;
+}
+
+#quizQuestion {
+    font-size: 20px;
+    margin: 20px;
+}
+
+#quizReponse {
+    font-size: 18px;
+    color: green;
+}
