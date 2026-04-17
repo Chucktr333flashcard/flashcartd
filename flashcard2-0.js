@@ -2,6 +2,15 @@ let quizCartes = [];
 let indexQuiz = 0;
 
 let matiere = "";
+if (!localStorage.getItem("flashcards")) {
+    localStorage.setItem("flashcards", JSON.stringify({
+        francais: [],
+        math: [],
+        ses: [],
+        histoire: [],
+        science: []
+    }));
+}
 
 // Charger toutes les données (VERSION SÉCURISÉE)
 function getData() {
