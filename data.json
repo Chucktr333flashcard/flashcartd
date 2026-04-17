@@ -1,0 +1,25 @@
+{
+  "francais": [
+    {
+      "question": "Qu’est-ce qu’une métaphore ?",
+      "reponse": "Une comparaison sans outil de comparaison"
+    },
+    {
+      "question": "Définition d’un registre tragique",
+      "reponse": "Exprime la souffrance et la fatalité"
+    }
+  ],
+  "math": [
+    {
+      "question": "Dérivée de x²",
+      "reponse": "2x"
+    },
+    {
+      "question": "Somme des angles d’un triangle",
+      "reponse": "180°"
+    }
+  ],
+  "ses": [],
+  "histoire": [],
+  "science": []
+}
