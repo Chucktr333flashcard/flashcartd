@@ -8,29 +8,33 @@ function getData() {
     try {
         let data = localStorage.getItem("flashcards");
 
-        return data ? JSON.parse(data) : {
-            francais: [],
-            math: [],
-            ses: [],
-            histoire: [],
-            science: []
-        };
+        if (!data) throw new Error("vide");
+
+        let parsed = JSON.parse(data);
+
+        // vérification structure minimale
+        if (!parsed.francais || !parsed.math || !parsed.ses) {
+            throw new Error("structure invalide");
+        }
+
+        return parsed;
 
     } catch (e) {
-        console.error("JSON corrompu → reset automatique");
+        console.log("Reset auto flashcards");
 
-        localStorage.removeItem("flashcards");
-
-        return {
+        let defaultData = {
             francais: [],
             math: [],
             ses: [],
             histoire: [],
             science: []
         };
+
+        localStorage.setItem("flashcards", JSON.stringify(defaultData));
+
+        return defaultData;
     }
 }
-
 // Sauvegarder
 function saveData(data) {
     localStorage.setItem("flashcards", JSON.stringify(data));
@@ -171,16 +175,35 @@ function quitterQuiz() {
     document.querySelector(".form").classList.remove("hidden");
 }
 async function initialiserData() {
-    let data = localStorage.getItem("flashcards");
+    try {
+        let data = localStorage.getItem("flashcards");
 
-    if (!data) {
-        const res = await fetch("data.json");
-        const json = await res.json();
+        if (!data) {
+            const res = await fetch("./data.json");
 
-        localStorage.setItem("flashcards", JSON.stringify(json));
-        console.log("Flashcards initialisées !");
+            if (!res.ok) throw new Error("data.json introuvable");
+
+            const json = await res.json();
+
+            localStorage.setItem("flashcards", JSON.stringify(json));
+
+            console.log("Import initial data.json OK");
+        }
+
+    } catch (e) {
+        console.log("Fallback localStorage");
+
+        localStorage.setItem("flashcards", JSON.stringify({
+            francais: [],
+            math: [],
+            ses: [],
+            histoire: [],
+            science: []
+        }));
     }
 }
+
+initialiserData();
 
 initialiserData();
 
