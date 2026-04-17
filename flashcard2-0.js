@@ -245,3 +245,6 @@ function supprimer(index) {
     saveData(data);
     afficher();
 }
+fetch("./data.json")
+  .then(r => console.log("STATUS DATA.JSON :", r.status))
+  .catch(e => console.log("FETCH ERROR :", e));
