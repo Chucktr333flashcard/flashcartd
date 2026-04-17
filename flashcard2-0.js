@@ -189,7 +189,23 @@ async function initialiserData() {
     try {
         let data = localStorage.getItem("flashcards");
 
-        if (!data) {
+        let needsInit = false;
+
+        if (!data) needsInit = true;
+
+        if (data) {
+            try {
+                let parsed = JSON.parse(data);
+
+                if (!parsed.francais || !parsed.math || !parsed.ses) {
+                    needsInit = true;
+                }
+            } catch (e) {
+                needsInit = true;
+            }
+        }
+
+        if (needsInit) {
             const res = await fetch("./data.json");
 
             if (!res.ok) throw new Error("data.json introuvable");
@@ -198,7 +214,7 @@ async function initialiserData() {
 
             localStorage.setItem("flashcards", JSON.stringify(json));
 
-            console.log("Import initial data.json OK");
+            console.log("Import data.json OK");
         }
 
     } catch (e) {
@@ -216,7 +232,7 @@ async function initialiserData() {
 
 initialiserData();
 
-initialiserData();
+
 
 // Supprimer
 function supprimer(index) {
