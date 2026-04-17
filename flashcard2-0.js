@@ -1,7 +1,3 @@
-let quizCartes = [];
-let indexQuiz = 0;
-
-let matiere = "";
 if (!localStorage.getItem("flashcards")) {
     localStorage.setItem("flashcards", JSON.stringify({
         francais: [],
@@ -11,6 +7,12 @@ if (!localStorage.getItem("flashcards")) {
         science: []
     }));
 }
+
+let quizCartes = [];
+let indexQuiz = 0;
+
+let matiere = "";
+
 
 // Charger toutes les données (VERSION SÉCURISÉE)
 function getData() {
