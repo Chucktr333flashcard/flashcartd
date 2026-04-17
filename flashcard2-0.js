@@ -170,6 +170,19 @@ function quitterQuiz() {
     document.getElementById("liste").classList.remove("hidden");
     document.querySelector(".form").classList.remove("hidden");
 }
+async function initialiserData() {
+    let data = localStorage.getItem("flashcards");
+
+    if (!data) {
+        const res = await fetch("data.json");
+        const json = await res.json();
+
+        localStorage.setItem("flashcards", JSON.stringify(json));
+        console.log("Flashcards initialisées !");
+    }
+}
+
+initialiserData();
 
 // Supprimer
 function supprimer(index) {
