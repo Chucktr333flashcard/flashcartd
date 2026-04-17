@@ -16,30 +16,36 @@ let matiere = "";
 
 // Charger toutes les données (VERSION SÉCURISÉE)
 function getData() {
+    let defaultData = {
+        francais: [],
+        math: [],
+        ses: [],
+        histoire: [],
+        science: []
+    };
+
     try {
-        let data = localStorage.getItem("flashcards");
+        let raw = localStorage.getItem("flashcards");
 
-        if (!data) throw new Error("vide");
+        if (!raw) return defaultData;
 
-        let parsed = JSON.parse(data);
+        let parsed = JSON.parse(raw);
 
-        // vérification structure minimale
-        if (!parsed.francais || !parsed.math || !parsed.ses) {
+        // validation stricte
+        if (
+            !parsed.francais ||
+            !parsed.math ||
+            !parsed.ses ||
+            !parsed.histoire ||
+            !parsed.science
+        ) {
             throw new Error("structure invalide");
         }
 
         return parsed;
 
     } catch (e) {
-        console.log("Reset auto flashcards");
-
-        let defaultData = {
-            francais: [],
-            math: [],
-            ses: [],
-            histoire: [],
-            science: []
-        };
+        console.log("Reset localStorage");
 
         localStorage.setItem("flashcards", JSON.stringify(defaultData));
 
@@ -230,7 +236,6 @@ async function initialiserData() {
     }
 }
 
-initialiserData();
 
 
 
