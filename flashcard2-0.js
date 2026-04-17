@@ -1,3 +1,6 @@
+let quizCartes = [];
+let indexQuiz = 0;
+
 let matiere = "";
 
 // Charger toutes les données
@@ -76,6 +79,53 @@ function afficher() {
 
         liste.appendChild(div);
     });
+}
+
+function melanger(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+function lancerQuiz() {
+    let data = getData();
+
+    if (data[matiere].length === 0) {
+        alert("Aucune flashcard !");
+        return;
+    }
+
+    quizCartes = melanger([...data[matiere]]);
+    indexQuiz = 0;
+
+    document.getElementById("liste").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
+
+    afficherQuestion();
+}
+function afficherQuestion() {
+    let carte = quizCartes[indexQuiz];
+
+    document.getElementById("quizQuestion").innerText = carte.question;
+
+    let rep = document.getElementById("quizReponse");
+    rep.innerText = carte.reponse;
+    rep.classList.add("hidden");
+}
+function afficherReponse() {
+    document.getElementById("quizReponse").classList.remove("hidden");
+}
+function questionSuivante() {
+    indexQuiz++;
+
+    if (indexQuiz >= quizCartes.length) {
+        alert("Quiz terminé !");
+        quitterQuiz();
+        return;
+    }
+
+    afficherQuestion();
+}
+function quitterQuiz() {
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("liste").classList.remove("hidden");
 }
 
 // Supprimer
