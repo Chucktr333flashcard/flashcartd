@@ -22,7 +22,21 @@
 <!-- APP -->
 <div id="app" class="hidden">
     <h1 id="titre"></h1>
+    <button onclick="lancerQuiz()">Mode Quiz</button>
+    <!-- Zone Quiz -->
+    <div id="quiz" class="hidden">
+        <h2 id="quizQuestion"></h2>
+        <p id="quizReponse" class="hidden"></p>
 
+        <button onclick="afficherReponse()">Voir la réponse</button>
+        <button onclick="questionSuivante()">Suivant</button>
+        <button onclick="quitterQuiz()">Quitter le quiz</button>
+    </div>
+
+    
+    
+    
+    
     <div class="form">
         <input id="question" placeholder="Question">
         <input id="reponse" placeholder="Réponse">
