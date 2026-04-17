@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Flashcards Révision</title>
+    <link rel="stylesheet" href="flashcard2-0.css">
+</head>
+<body>
+
+<!-- MENU -->
+<div id="menu">
+    <h1>Choisis une matière</h1>
+    <div class="matieres">
+        <button onclick="choisirMatiere('francais')">Français</button>
+        <button onclick="choisirMatiere('math')">Math</button>
+        <button onclick="choisirMatiere('ses')">SES</button>
+        <button onclick="choisirMatiere('histoire')">Histoire-Géo</button>
+        <button onclick="choisirMatiere('science')">Enseignement scientifique</button>
+    </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+    <h1 id="titre"></h1>
+
+    <div class="form">
+        <input id="question" placeholder="Question">
+        <input id="reponse" placeholder="Réponse">
+        <button onclick="ajouter()">Ajouter</button>
+    </div>
+
+    <h2>Mes flashcards</h2>
+    <div id="liste"></div>
+
+    <button onclick="retour()">Retour</button>
+</div>
+
+<script src="flashcard2-0.js"></script>
+</body>
+</html>
