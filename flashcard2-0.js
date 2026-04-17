@@ -3,16 +3,32 @@ let indexQuiz = 0;
 
 let matiere = "";
 
-// Charger toutes les données
+// Charger toutes les données (VERSION SÉCURISÉE)
 function getData() {
-    let data = localStorage.getItem("flashcards");
-    return data ? JSON.parse(data) : {
-        francais: [],
-        math: [],
-        ses: [],
-        histoire: [],
-        science: []
-    };
+    try {
+        let data = localStorage.getItem("flashcards");
+
+        return data ? JSON.parse(data) : {
+            francais: [],
+            math: [],
+            ses: [],
+            histoire: [],
+            science: []
+        };
+
+    } catch (e) {
+        console.error("JSON corrompu → reset automatique");
+
+        localStorage.removeItem("flashcards");
+
+        return {
+            francais: [],
+            math: [],
+            ses: [],
+            histoire: [],
+            science: []
+        };
+    }
 }
 
 // Sauvegarder
@@ -67,6 +83,8 @@ function afficher() {
 
     liste.innerHTML = "";
 
+    if (!data[matiere]) return;
+
     data[matiere].forEach((c, i) => {
         let div = document.createElement("div");
         div.className = "flashcard";
@@ -81,13 +99,20 @@ function afficher() {
     });
 }
 
+// Mélange CORRECT (Fisher-Yates)
 function melanger(array) {
-    return array.sort(() => Math.random() - 0.5);
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
+
+// Lancer quiz
 function lancerQuiz() {
     let data = getData();
 
-    if (data[matiere].length === 0) {
+    if (!data[matiere] || data[matiere].length === 0) {
         alert("Aucune flashcard !");
         return;
     }
@@ -97,10 +122,15 @@ function lancerQuiz() {
 
     document.getElementById("liste").classList.add("hidden");
     document.getElementById("quiz").classList.remove("hidden");
+    document.querySelector(".form").classList.add("hidden");
 
     afficherQuestion();
 }
+
+// Afficher question (sécurisé)
 function afficherQuestion() {
+    if (!quizCartes[indexQuiz]) return;
+
     let carte = quizCartes[indexQuiz];
 
     document.getElementById("quizQuestion").innerText = carte.question;
@@ -108,10 +138,20 @@ function afficherQuestion() {
     let rep = document.getElementById("quizReponse");
     rep.innerText = carte.reponse;
     rep.classList.add("hidden");
+
+    // progression
+    let prog = document.getElementById("progression");
+    if (prog) {
+        prog.innerText = `Question ${indexQuiz + 1} / ${quizCartes.length}`;
+    }
 }
+
+// Voir réponse
 function afficherReponse() {
     document.getElementById("quizReponse").classList.remove("hidden");
 }
+
+// Question suivante
 function questionSuivante() {
     indexQuiz++;
 
@@ -123,14 +163,19 @@ function questionSuivante() {
 
     afficherQuestion();
 }
+
+// Quitter quiz
 function quitterQuiz() {
     document.getElementById("quiz").classList.add("hidden");
     document.getElementById("liste").classList.remove("hidden");
+    document.querySelector(".form").classList.remove("hidden");
 }
 
 // Supprimer
 function supprimer(index) {
     let data = getData();
+
+    if (!data[matiere]) return;
 
     data[matiere].splice(index, 1);
 
